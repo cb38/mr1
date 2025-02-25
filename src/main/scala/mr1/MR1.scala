@@ -56,6 +56,8 @@ case class RVFI(config: MR1Config) extends Bundle {
     val mem_wmask   = Bits(4 bits)
     val mem_rdata   = Bits(32 bits)
     val mem_wdata   = Bits(32 bits)
+    val ixl         = Bits(2 bits)
+    val mode        = Bits(2 bits)
 
     def init() : RVFI = {
         valid     init(False) addAttribute("keep")
@@ -77,6 +79,8 @@ case class RVFI(config: MR1Config) extends Bundle {
         mem_rdata init(0) addAttribute("keep")
         mem_wmask init(0) addAttribute("keep")
         mem_wdata init(0) addAttribute("keep")
+        ixl       init(1) addAttribute("keep")
+        mode      init(3) addAttribute("keep")
 
         this
     }
@@ -184,7 +188,7 @@ class MR1(config: MR1Config) extends Component {
 }
 
 object MR1Verilog {
-    def main(args: Array[String]) {
+    def main(args: Array[String]): Unit = {
         SpinalVerilog(new MR1(config = MR1Config(supportFormal = true,
                                                  supportMul = false,
                                                  supportDiv = false,

@@ -292,7 +292,7 @@ class Execute(config: MR1Config) extends Component {
 
         switch(itype){
             is(InstrType.B, InstrType.JAL, InstrType.JALR){
-                when(exe_end && io.e2d.pc_jump_valid && io.e2d.pc_jump(1 downto 0) =/= "00"){
+                when(exe_end && io.e2d.pc_jump_valid && !(io.e2d.pc_jump(1 downto 0) === 0)){
                     rvfi.trap := True
                 }
             }
@@ -304,7 +304,7 @@ class Execute(config: MR1Config) extends Component {
                                                                       B"1111")) |<< lsu.lsu_addr(1 downto 0)
 
                     rvfi.trap      := (io.data_req.size === B"01" && lsu.lsu_addr(0)) |
-                                             (io.data_req.size === B"10" && lsu.lsu_addr(1 downto 0) =/= "00")
+                                             (io.data_req.size === B"10" && !(lsu.lsu_addr(1 downto 0) === 0))
                 }
             }
             is(InstrType.S){
@@ -317,7 +317,7 @@ class Execute(config: MR1Config) extends Component {
                     rvfi.mem_wdata := io.data_req.data
 
                     rvfi.trap      := (io.data_req.size === B"01" && lsu.lsu_addr(0)) |
-                                      (io.data_req.size === B"10" && lsu.lsu_addr(1 downto 0) =/= "00")
+                                      (io.data_req.size === B"10" && !(lsu.lsu_addr(1 downto 0) === 0))
 
                 }
             }

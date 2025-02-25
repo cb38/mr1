@@ -1,18 +1,16 @@
+ThisBuild / version := "1.0"
+ThisBuild / scalaVersion := "2.12.20"
+ThisBuild / organization := "org.example"
 
-name := "SpinalTemplateSbt"
+val spinalVersion = "1.11.0"
+val spinalCore = "com.github.spinalhdl" %% "spinalhdl-core" % spinalVersion
+val spinalLib = "com.github.spinalhdl" %% "spinalhdl-lib" % spinalVersion
+val spinalIdslPlugin = compilerPlugin("com.github.spinalhdl" %% "spinalhdl-idsl-plugin" % spinalVersion)
 
-version := "1.0"
-
-scalaVersion := "2.11.6"
-
-EclipseKeys.withSource := true
-
-libraryDependencies ++= Seq(
-  "com.github.spinalhdl" % "spinalhdl-core_2.11" % "1.2.2",
-  "com.github.spinalhdl" % "spinalhdl-lib_2.11" % "1.2.2"
-)
-
-addCompilerPlugin("org.scala-lang.plugins" % "scala-continuations-plugin_2.11.6" % "1.0.2")
-scalacOptions += "-P:continuations:enable"
+lazy val mr1 = (project in file("."))
+  .settings(
+    Compile / scalaSource := baseDirectory.value / "src" / "main" / "scala",
+    libraryDependencies ++= Seq(spinalCore, spinalLib, spinalIdslPlugin)
+  )
 fork := true
 

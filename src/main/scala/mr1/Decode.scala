@@ -229,8 +229,8 @@ class Decode(config: MR1Config) extends Component {
 
     val i_imm = S(B((19 downto 0) -> instr(31)) ## instr(31 downto 20))
     val s_imm = S(B((19 downto 0) -> instr(31)) ## instr(31 downto 25) ## instr(11 downto 7))
-    val b_imm = S(B((19 downto 0) -> instr(31)) ## instr(7) ## instr(30 downto 25) ## instr(11 downto 8) ## "0")
-    val j_imm = S(B((10 downto 0) -> instr(31)) ## instr(31) ## instr(19 downto 12) ## instr(20) ## instr(30 downto 21) ## "0")
+    val b_imm = S(B((19 downto 0) -> instr(31)) ## instr(7) ## instr(30 downto 25) ## instr(11 downto 8) ## B"0")
+    val j_imm = S(B((10 downto 0) -> instr(31)) ## instr(31) ## instr(19 downto 12) ## instr(20) ## instr(30 downto 21) ## B"0")
     val u_imm = S(instr(31 downto 12) ## B((11 downto 0) -> false))
 
     io.d2f.pc_jump_valid := io.e2d.pc_jump_valid
@@ -309,7 +309,7 @@ class Decode(config: MR1Config) extends Component {
         }
 
         rvfi.valid      := decode_end
-
+        
         when(decode_end){
             rvfi.order      := order
             rvfi.insn       := io.f2d.instr
